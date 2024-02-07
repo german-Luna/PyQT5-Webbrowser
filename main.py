@@ -1,8 +1,7 @@
+from PyQt5.QtCore import QUrl
+from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QSpacerItem, QStatusBar, QToolBar, QAction, QLineEdit
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtWebEngineWidgets import *
 from modules.user_data import Settings, ensure_user_data_exists
 
 
