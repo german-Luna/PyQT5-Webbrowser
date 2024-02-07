@@ -8,38 +8,61 @@ from modules.user_data import Settings, ensure_user_data_exists
 
 ensure_user_data_exists()
 DEFAULT_PAGE = Settings.get("default_page","https://duckduckgo.com/")
+USER_AGENT = Settings.get("user_agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/83.0.4103.122 Safari/537.36 PYTQ5 Browser https://github.com/german-Luna/PyQT5-Webbrowser")
+
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
         super(SettingsDialog, self).__init__(parent)
         self.title = 'PyQt5 Webbrowser - Settings'
-        self.settings = QSettings('YourCompany', 'YourApp')
-
-        # Initialize UI components
+        self.setWindowTitle(self.title)
         self.initUI()
 
     def initUI(self):
-        # Create layout and widgets
         layout = QVBoxLayout()
-        self.textbox = QLineEdit(self)
         
-        #create textbox to change default page
-        self.textbox.setText(DEFAULT_PAGE)
+        # Adjust the geometry to provide enough space
+        self.setGeometry(0,   0,   400,   300)
         
-        # Save button to apply changes
+        self.start_page_text = QLabel("Startpage", self)
+        layout.addWidget(self.start_page_text)
+        
+        # Default page QLineEdit
+        self.default_page_textbox = QLineEdit(self)
+        self.default_page_textbox.setText(DEFAULT_PAGE)
+        layout.addWidget(self.default_page_textbox)
+        
+        self.user_agent_text = QLabel("User Agent", self)
+        layout.addWidget(self.user_agent_text)
+        
+        # User agent QLineEdit
+        self.user_agent_textbox = QLineEdit(self)
+        self.user_agent_textbox.setText(USER_AGENT)
+        layout.addWidget(self.user_agent_textbox)
+        
+        # Spacer to separate elements
+        spacer = QSpacerItem(20,  40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        layout.addItem(spacer)
+        
+        # Warning text
+        self.warning_text = QLabel("Changes only take effect after restarting", self)
+        layout.addWidget(self.warning_text)
+        
+        # Save button
         save_button = QPushButton("Save Changes")
         save_button.clicked.connect(self.save_changes)
-        
-        # Add widgets to layout
-        layout.addWidget(self.textbox)
         layout.addWidget(save_button)
         
-        # Set dialog layout
+        # Set the layout
         self.setLayout(layout)
 
     def save_changes(self):
         # Save the new default page setting
-        Settings.set("default_page",self.textbox.text())
+        Settings.set("default_page", self.default_page_textbox.text())
+        Settings.set("user_agent", self.user_agent_textbox.text())
+
+        # Optionally, adjust the size of the dialog to fit the content
+        self.adjustSize()
 
 class MainWindow(QMainWindow):
     """
@@ -121,6 +144,11 @@ class MainWindow(QMainWindow):
         if qurl is None:
             qurl = QUrl(DEFAULT_PAGE)
         browser = QWebEngineView()
+
+        #set custom user agent
+        profile = browser.page().profile()
+        profile.setHttpUserAgent(USER_AGENT)
+
         browser.setUrl(qurl)
         i = self.tabs.addTab(browser, label)
         self.tabs.setCurrentIndex(i)
