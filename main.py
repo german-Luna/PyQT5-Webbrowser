@@ -16,12 +16,11 @@ class SettingsDialog(QDialog):
         self.title = 'PyQt5 Webbrowser - Settings'
         self.setWindowTitle(self.title)
         self.initUI()
-
+ 
     def initUI(self):
         layout = QVBoxLayout()
         
-        # Adjust the geometry to provide enough space
-        self.setGeometry(0,   0,   400,   300)
+        self.adjustSize()
         
         self.start_page_text = QLabel("Startpage", self)
         layout.addWidget(self.start_page_text)
@@ -38,10 +37,6 @@ class SettingsDialog(QDialog):
         self.user_agent_textbox = QLineEdit(self)
         self.user_agent_textbox.setText(USER_AGENT)
         layout.addWidget(self.user_agent_textbox)
-        
-        # Spacer to separate elements
-        spacer = QSpacerItem(20,  40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        layout.addItem(spacer)
         
         # Warning text
         self.warning_text = QLabel("Changes only take effect after restarting", self)
