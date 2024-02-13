@@ -4,11 +4,9 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 import sys
 from modules.user_data import Settings, ensure_user_data_exists
 
-
 ensure_user_data_exists()
 DEFAULT_PAGE = Settings.get("default_page","https://duckduckgo.com/")
-USER_AGENT = Settings.get("user_agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/83.0.4103.122 Safari/537.36 PYTQ5 Browser https://github.com/german-Luna/PyQT5-Webbrowser")
-
+USER_AGENT = Settings.get("user_agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/83.0.4103.122 Safari/537.36")
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
